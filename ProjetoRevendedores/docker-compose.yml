@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: projeto-revendedores-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Str0ng!Passw0rd2024"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: projeto-revendedores-backend
+    depends_on:
+      - sqlserver
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:5000"
+      ConnectionStrings__Catalogo: "Server=sqlserver,1433;Database=ProjetoRevendedoresCatalogo;User Id=sa;Password=Str0ng!Passw0rd2024;TrustServerCertificate=True;"
+      ConnectionStrings__Pedidos: "Server=sqlserver,1433;Database=ProjetoRevendedoresPedidos;User Id=sa;Password=Str0ng!Passw0rd2024;TrustServerCertificate=True;"
+      ConnectionStrings__Reporting: "Server=sqlserver,1433;Database=ProjetoRevendedoresReporting;User Id=sa;Password=Str0ng!Passw0rd2024;TrustServerCertificate=True;"
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    container_name: projeto-revendedores-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  sqlserver-data:

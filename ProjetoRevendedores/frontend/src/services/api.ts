@@ -1,0 +1,20 @@
+import axios from 'axios';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
+export const api = axios.create({
+  baseURL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error.response) {
+      console.warn('Sem resposta do servidor, utilizando modo offline.');
+    }
+    return Promise.reject(error);
+  }
+);

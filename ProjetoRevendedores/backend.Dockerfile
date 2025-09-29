@@ -12,6 +12,9 @@ COPY Pedidos.Domain/ Pedidos.Domain/
 COPY Pedidos.Application/ Pedidos.Application/
 COPY Pedidos.Infrastructure/ Pedidos.Infrastructure/
 COPY Pedidos.Api/ Pedidos.Api/
+COPY Catalogo.Domain.Tests/ Catalogo.Domain.Tests/
+COPY Pedidos.Domain.Tests/ Pedidos.Domain.Tests/
+COPY Pedidos.Infrastructure.Tests/ Pedidos.Infrastructure.Tests/
 COPY Reporting.Projections/ Reporting.Projections/
 COPY Reporting.Api/ Reporting.Api/
 
